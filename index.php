@@ -66,8 +66,8 @@
                 </div>
             </div>
             
-            <div class="hero-image-wrap fade-in-up" style="transition-delay: 0.2s;">
-                <img src="<?= get_raw_content($pdo, 'home_hero_image') ?>" alt="Sabbir Biswas - WordPress Developer" class="hero-image">
+            <div class="hero-image-wrap fade-in-up float-anim" style="transition-delay: 0.2s;">
+                <img src="<?= get_raw_content($pdo, 'home_hero_image') ?>" alt="Sabbir Biswas - AI Web Developer" class="hero-image">
             </div>
         </div>
     </section>
