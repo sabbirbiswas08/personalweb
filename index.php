@@ -13,7 +13,7 @@
     /* ── HERO ────────────────────────────────────────── */
     .hero {
       min-height: 100vh;
-      padding-top: var(--nav-h);
+      padding: calc(var(--nav-h) + 50px) 0 50px;
       display: flex;
       align-items: center;
       position: relative;
