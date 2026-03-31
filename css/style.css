@@ -4,37 +4,37 @@
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
   
-  /* Color Palette */
-  --color-bg: #FFFFFF;
-  --color-bg-alt: #F8FAFC; /* Slate 50 */
-  --color-text: #0F172A; /* Slate 900 */
-  --color-text-muted: #64748B; /* Slate 500 */
-  --color-primary: #2563EB; /* Blue 600 */
-  --color-primary-hover: #1D4ED8; /* Blue 700 */
-  --color-accent: #38BDF8; /* Sky 400 */
+  /* Modern AI Dark Mode Palette */
+  --color-bg: #09090b; /* Very dark zinc */
+  --color-bg-alt: #18181b; /* Slightly lighter zinc */
+  --color-text: #f8fafc; /* Crisp white */
+  --color-text-muted: #94a3b8; /* Slate 400 */
   
-  /* UI Elements */
+  /* Cyber / AI Accents */
+  --color-primary: #06b6d4; /* Neon Cyan */
+  --color-primary-hover: #0891b2; /* Darker Cyan */
+  --color-accent: #8b5cf6; /* Glowing Purple */
+  
+  /* Glass UI Elements */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-glow: 0 0 20px rgba(6, 182, 212, 0.15); /* Cyan glow */
+  
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-full: 9999px;
   
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-hard: 8px 8px 0px 0px rgba(15, 23, 42, 1);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.5);
+  --shadow-hard: 8px 8px 0px 0px rgba(6, 182, 212, 0.8); /* Cyan hard shadow for cyberpunk touch */
   
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Navbar Height */
   --nav-height: 80px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
   font-family: var(--font-body);
@@ -47,35 +47,16 @@ html {
 body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.08), transparent 25%),
+                    radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.08), transparent 25%);
+  background-attachment: fixed;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-p {
-  color: var(--color-text-muted);
-  margin-bottom: 1rem;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: var(--transition);
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-ul {
-  list-style: none;
-}
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); line-height: 1.2; font-weight: 700; color: var(--color-text); }
+p { color: var(--color-text-muted); margin-bottom: 1rem; }
+a { text-decoration: none; color: inherit; transition: var(--transition); }
+img { max-width: 100%; height: auto; display: block; }
+ul { list-style: none; }
 
 /* Typography Utilities */
 .text-center { text-align: center; }
@@ -87,39 +68,14 @@ ul {
 .text-xl { font-size: 1.25rem; }
 
 /* Layout Utilities */
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.section { padding: 6rem 0; }
+.section-bg-alt { background-color: var(--color-bg-alt); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);}
 
-.section {
-  padding: 6rem 0;
-}
-
-.section-bg-alt {
-  background-color: var(--color-bg-alt);
-}
-
-.section-header {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto 4rem;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.section-title span {
-  color: var(--color-primary);
-}
-
-.section-subtitle {
-  font-size: 1.125rem;
-}
+.section-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+.section-title { font-size: 2.5rem; margin-bottom: 1rem; }
+.section-title span { background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.section-subtitle { font-size: 1.125rem; color: var(--color-text-muted); }
 
 /* Flex & Grid */
 .flex { display: flex; }
@@ -152,7 +108,7 @@ ul {
 .fade-in-up {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
 }
 
 .fade-in-up.visible {

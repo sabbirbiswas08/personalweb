@@ -18,17 +18,19 @@ $admin_email = $settings_all['admin_email'] ?? 'Not set';
     <title>Dashboard | CMS Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Inter', sans-serif; background: #f9fafb; display: flex; }
-        .sidebar { width: 250px; background: #1f2937; color: white; height: 100vh; position: fixed; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 1.5rem; font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid #374151; }
-        .nav-link { display: block; padding: 1rem 1.5rem; color: #d1d5db; text-decoration: none; transition: 0.2s; }
-        .nav-link:hover, .nav-link.active { background: #374151; color: white; border-left: 4px solid #3b82f6; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: #09090b; color: #f8fafc; display: flex; }
+        .sidebar { width: 250px; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-right: 1px solid rgba(255, 255, 255, 0.05); color: white; height: 100vh; position: fixed; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 1.5rem; font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #06b6d4; }
+        .nav-link { display: block; padding: 1rem 1.5rem; color: #94a3b8; text-decoration: none; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { background: rgba(6, 182, 212, 0.1); color: white; border-left: 4px solid #06b6d4; }
         .content { margin-left: 250px; padding: 2rem; width: 100%; }
-        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
-        .stat-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid #3b82f6; }
-        h1, h2, h3 { color: #111827; margin-top: 0; }
-        .badge { background: #ef4444; color: white; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; margin-left: auto; float: right; }
+        .stat-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #06b6d4; }
+        h1, h2, h3 { color: #f8fafc; margin-top: 0; }
+        .badge { background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; margin-left: auto; float: right; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+        ul li a { color: #06b6d4 !important; transition: 0.3s; }
+        ul li a:hover { color: #8b5cf6 !important; text-shadow: 0 0 8px rgba(139, 92, 246, 0.5); }
     </style>
 </head>
 <body>

@@ -11,8 +11,19 @@
     <style>
         .page-header { padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 2rem; text-align: center; }
         .portfolio-filters { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
-        .filter-btn { background: none; border: 1px solid rgba(15, 23, 42, 0.2); padding: 0.5rem 1.25rem; border-radius: var(--radius-full); color: var(--color-text); font-weight: 500; cursor: pointer; transition: var(--transition); }
-        .filter-btn.active, .filter-btn:hover { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+        .filter-btn { background: var(--glass-bg); border: var(--glass-border); padding: 0.5rem 1.25rem; border-radius: var(--radius-full); color: var(--color-text-muted); font-weight: 500; cursor: pointer; transition: var(--transition); }
+        .filter-btn.active, .filter-btn:hover { background: rgba(6, 182, 212, 0.1); color: var(--color-primary); border-color: var(--color-primary); box-shadow: inset 0 0 10px rgba(6,182,212,0.2); }
+        .pulse-coming-soon {
+            animation: pulse-glow 2s infinite ease-in-out;
+            background: rgba(139, 92, 246, 0.05); border: 1px dashed rgba(139, 92, 246, 0.5);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            min-height: 350px; border-radius: var(--radius-lg);
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 rgba(139, 92, 246, 0); }
+            50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+            100% { box-shadow: 0 0 0 rgba(139, 92, 246, 0); }
+        }
     </style>
 </head>
 <body>
@@ -33,9 +44,9 @@
     </nav>
 
     <header class="page-header container fade-in-up">
-        <div class="badge">My Case Studies</div>
-        <h1 class="section-title">Explore My <span>Latest Projects</span></h1>
-        <p class="section-subtitle mx-auto" style="max-width: 600px; margin: 0 auto;">A selection of custom WordPress websites, eCommerce platforms, and dynamic Elementor builds.</p>
+        <div class="badge"><i class="fas fa-code"></i> My Case Studies</div>
+        <h1 class="section-title">Explore My <span>Latest AI Work</span></h1>
+        <p class="section-subtitle mx-auto" style="max-width: 600px; margin: 0 auto;">A collection of secure databases, modern UI applications, and fully functional custom deployments.</p>
     </header>
 
     <section class="section pt-0">
@@ -43,90 +54,49 @@
             
             <div class="portfolio-filters fade-in-up">
                 <button class="filter-btn active">All Projects</button>
-                <button class="filter-btn">eCommerce</button>
-                <button class="filter-btn">Custom Theme</button>
-                <button class="filter-btn">Elementor</button>
+                <button class="filter-btn">AI Dashboards</button>
+                <button class="filter-btn">Secure DB Systems</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <div class="portfolio-card fade-in-up">
                     <div class="portfolio-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&q=80&w=800" alt="Tech Startup Layout" class="portfolio-img">
+                        <img src="images/ai_dashboard.png" alt="AI Dashboard UI" class="portfolio-img">
                     </div>
                     <div class="portfolio-content">
-                        <span class="portfolio-tag">Custom Elementor</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem;">Tech Startup Website Redesign</h3>
-                        <p class="text-sm">Transformed a slow legacy site into a lightning-fast, modern Elementor Pro build with advanced GSAP animations.</p>
-                        <div class="flex items-center text-sm font-bold text-primary" style="margin-top: 1rem;">
-                            Result: +140% Conversion Rate
-                        </div>
+                        <span class="portfolio-tag" style="background: rgba(6, 182, 212, 0.1); color: var(--color-primary); border-color: rgba(6, 182, 212, 0.3);">PHP & JS App</span>
+                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem; color: #fff;">AI Data Analytics Dashboard</h3>
+                        <p class="text-sm">A highly functional, custom-built UI using modern Glassmorphism, driving real-time data flow perfectly into a secure MySQL environment.</p>
                     </div>
                 </div>
 
                 <div class="portfolio-card fade-in-up" style="transition-delay: 0.1s;">
                     <div class="portfolio-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800" alt="WooCommerce Store" class="portfolio-img">
+                        <img src="images/database_ui.png" alt="Database Interaction Panel" class="portfolio-img">
                     </div>
                     <div class="portfolio-content">
-                        <span class="portfolio-tag">WooCommerce</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem;">Boutique Online Store</h3>
-                        <p class="text-sm">Full WooCommerce setup with custom variations, sleek checkout flow, and automated abandoned cart recovery.</p>
-                        <div class="flex items-center text-sm font-bold text-primary" style="margin-top: 1rem;">
-                            Result: 2.5s Load Time, Increased Order Value
-                        </div>
+                        <span class="portfolio-tag">Secure MySQL CMS</span>
+                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem; color: #fff;">Scalable Backend Management</h3>
+                        <p class="text-sm">Zero WordPress involved. A highly engineered custom PHP backend allowing dynamic structural queries directly from the UI frontend layer.</p>
                     </div>
                 </div>
 
                 <div class="portfolio-card fade-in-up" style="transition-delay: 0.2s;">
                     <div class="portfolio-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1507238692062-5a042c12284b?auto=format&fit=crop&q=80&w=800" alt="Consulting Mockup" class="portfolio-img">
+                        <img src="images/secure_login.png" alt="Secure Login Flow" class="portfolio-img">
                     </div>
                     <div class="portfolio-content">
-                        <span class="portfolio-tag">Custom Theme</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem;">Corporate Consulting Firm</h3>
-                        <p class="text-sm">Built a bespoke WordPress theme using Gutenberg blocks without relying on heavy page builders for maximum performance.</p>
-                        <div class="flex items-center text-sm font-bold text-primary" style="margin-top: 1rem;">
-                            Result: 100/100 Google PageSpeed
-                        </div>
+                        <span class="portfolio-tag" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Authentication Architecture</span>
+                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem; color: #fff;">Encrypted Portal Design</h3>
+                        <p class="text-sm">Server-side authenticated logic flow guarding the AI endpoints utilizing highly secure Session storage mechanisms mitigating typical XSS vectors.</p>
                     </div>
                 </div>
 
-                <div class="portfolio-card fade-in-up" style="transition-delay: 0.3s;">
-                    <div class="portfolio-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=800" alt="Educational Site" class="portfolio-img">
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-tag">LMS & Scholarship</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem;">University Scholarship Portal</h3>
-                        <p class="text-sm">Developed an extensive directory for tracking and applying to scholarships with an advanced search/filter system.</p>
-                        <div class="flex items-center text-sm font-bold text-primary" style="margin-top: 1rem;">
-                            Result: 10,000+ Students Onboarded
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-card fade-in-up" style="transition-delay: 0.4s;">
-                    <div class="portfolio-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800" alt="Real Estate Landing" class="portfolio-img">
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-tag">Landing Page</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem;">High-Ticket Real Estate</h3>
-                        <p class="text-sm">Laser-focused landing page targeted at luxury homebuyers, integrated directly with industry leading CRM.</p>
-                        <div class="flex items-center text-sm font-bold text-primary" style="margin-top: 1rem;">
-                            Result: Tripled Lead Generation
-                        </div>
-                    </div>
-                </div>
-
-                <div class="portfolio-card fade-in-up flex-col justify-center items-center text-center" style="background: var(--color-primary); color: white; transition-delay: 0.5s;">
-                    <div class="portfolio-content padding-4">
-                        <i class="fas fa-rocket" style="font-size: 3rem; margin-bottom: 1.5rem;"></i>
-                        <h3 class="font-bold text-2xl" style="margin-bottom:1rem; color: white;">Ready for your project to be next?</h3>
-                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Let's collaborate and bring your vision to reality.</p>
-                        <a href="contact.php" class="btn" style="background: white; color: var(--color-primary);">Hire Me Today</a>
-                    </div>
+                <div class="pulse-coming-soon fade-in-up" style="transition-delay: 0.3s; padding: 2rem;">
+                    <i class="fas fa-layer-group" style="font-size: 3rem; color: rgba(139, 92, 246, 0.8); margin-bottom: 1rem; text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);"></i>
+                    <h3 class="font-bold text-xl" style="color: #fff;">More Coming Soon...</h3>
+                    <p class="text-sm" style="margin-top: 0.5rem;">I am constantly iterating and deploying new AI web applications. Stay tuned for further integrations.</p>
                 </div>
 
             </div>
@@ -139,7 +109,7 @@
             <div class="footer-top">
                 <div>
                     <a href="index.php" class="logo footer-logo" style="display:inline-block;">Sabbir<span>.</span></a>
-                    <p style="margin-top: 1rem; max-width: 300px;">Professional WordPress & Elementor Developer. Building websites that drive results and look amazing.</p>
+                    <p style="margin-top: 1rem; max-width: 300px;">AI Web Developer specializing in custom database engineering and gorgeous glassmorphism UIs.</p>
                 </div>
                 <div>
                     <h4 class="footer-title">Quick Links</h4>
