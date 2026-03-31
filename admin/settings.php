@@ -9,6 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmt->execute([$value, $key]);
     }
     $success = "Settings successfully updated.";
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_password') {
+    $new_password = $_POST['new_password'] ?? '';
+    if (strlen($new_password) >= 6) {
+        $hash = password_hash($new_password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?");
+        $stmt->execute([$hash, $_SESSION['admin_id']]);
+        $success = "Password successfully updated.";
+    } else {
+        $success = "Error: Password must be at least 6 characters long.";
+    }
 }
 
 // Fetch settings
@@ -70,6 +80,17 @@ $settings = $stmt->fetchAll();
             <?php endforeach; ?>
 
             <button type="submit" class="btn-submit">Save Settings</button>
+        </form>
+
+        <form method="POST" action="" class="bg-white">
+            <input type="hidden" name="action" value="update_password">
+            <h3 style="margin-top: 0; color: #111827;">Change Admin Password</h3>
+            <div class="form-group">
+                <label>New Password</label>
+                <div class="desc">Enter a new secure password. Must be at least 6 characters.</div>
+                <input type="password" name="new_password" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-family: inherit; font-size: 1rem; box-sizing: border-box;">
+            </div>
+            <button type="submit" class="btn-submit" style="background: #10b981;">Update Password</button>
         </form>
     </div>
 
