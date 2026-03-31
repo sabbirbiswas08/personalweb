@@ -167,11 +167,16 @@
       box-shadow: var(--glow-primary);
     }
 
+    .svc-grid  { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .step-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .section-alt { background: var(--bg-surface); position: relative; }
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; text-align: center; }
-      .hero-desc, .hero-ctas, .hero-stats { margin-left: auto; margin-right: auto; justify-content: center; }
-      .hero-img-wrap { display: none; } /* show simplified on mobile */
-      .hero-h1 { font-size: 2.5rem; }
+      .hero-desc  { margin: 0 auto 2.5rem; }
+      .hero-ctas  { justify-content: center; margin: 0 auto 3.5rem; }
+      .hero-stats { justify-content: center; flex-wrap: wrap; }
+      .hero-img-wrap { display: none; }
+      .hero-h1 { font-size: 2.4rem; }
     }
   </style>
 </head>
@@ -243,7 +248,7 @@
       <!-- Right: Image -->
       <div class="hero-img-wrap fade-up" style="transition-delay:.2s;">
         <div class="hero-img-ring"></div>
-        <img src="<?= get_raw_content($pdo,'home_hero_image','images/sabbir.jpg') ?>"
+        <img src="<?= get_raw_content($pdo,'home_hero_image','images/sabbir.png') ?>"
              alt="Sabbir Biswas — AI Web Developer"
              class="hero-img">
 
@@ -274,7 +279,7 @@
       <p class="section-sub" style="margin:0 auto;">I specialize in building complete web applications from concept to deployment — including AI-generated architecture, custom PHP backends, and WordPress CMS.</p>
     </div>
 
-    <div class="grid gap-6" style="grid-template-columns: repeat(3,1fr);">
+    <div class="svc-grid">
 
       <div class="card fade-up">
         <div class="icon-box"><i class="fas fa-brain"></i></div>
@@ -323,7 +328,7 @@
       <div class="eyebrow"><i class="fas fa-circle-nodes"></i> The Process</div>
       <h2 class="section-heading">How I Build Your Website,<br><span class="grad-text">From Zero to Live</span></h2>
     </div>
-    <div class="grid gap-6" style="grid-template-columns:repeat(4,1fr);">
+    <div class="step-grid">
       <div class="card fade-up">
         <div class="step-num">01</div>
         <h3 style="margin-bottom:.5rem;">Discovery</h3>

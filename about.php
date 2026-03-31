@@ -50,7 +50,7 @@
   <div class="container">
     <div class="grid gap-12" style="grid-template-columns:1fr 1fr; align-items:start;">
       <div class="fade-up">
-        <img src="<?= get_raw_content($pdo,'about_image','images/sabbir.jpg') ?>" alt="Sabbir Biswas" class="about-photo float">
+        <img src="<?= get_raw_content($pdo,'about_image','images/sabbir.png') ?>" alt="Sabbir Biswas" class="about-photo float">
       </div>
       <div class="fade-up" style="transition-delay:.15s;">
         <div class="eyebrow">My Story</div>
