@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | WordPress Developer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-header {
+            padding-top: calc(var(--nav-height) + 4rem);
+            padding-bottom: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Sabbir<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link active">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="contact.html" class="btn btn-primary" style="padding: 0.5rem 1rem;">Hire Me</a></li>
+            </ul>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Services Header -->
+    <header class="page-header container fade-in-up">
+        <div class="badge">What I can do for you</div>
+        <h1 class="section-title">Creative & <span>Technical Solutions</span></h1>
+        <p class="section-subtitle mx-auto" style="max-width: 600px; margin: 0 auto;">No matter the size of the project, I provide a comprehensive suite of WordPress development services designed to scale your business.</p>
+    </header>
+
+    <!-- Services Grid -->
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="card fade-in-up">
+                    <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3 class="service-title">WordPress Design</h3>
+                    <p>Fully functional, beautifully designed websites built on rock-solid WordPress core. Completely custom and aligned with your branding strategy.</p>
+                </div>
+                
+                <div class="card fade-in-up" style="transition-delay:0.1s;">
+                    <div class="service-icon"><i class="fab fa-elementor"></i></div>
+                    <h3 class="service-title">Elementor Expert</h3>
+                    <p>I build dynamic, pixel-perfect pages using Elementor Pro, offering you full control to seamlessly tweak layouts post-deployment.</p>
+                </div>
+                
+                <div class="card fade-in-up" style="transition-delay:0.2s;">
+                    <div class="service-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3 class="service-title">Website Redesign</h3>
+                    <p>Breathe new life into an outdated website. I'll transform it into a modern, fast, and high-converting asset tailored for today's web standards.</p>
+                </div>
+
+                <div class="card fade-in-up">
+                    <div class="service-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <h3 class="service-title">eCommerce Setup</h3>
+                    <p>Turn visitors into buyers with a streamlined WooCommerce store. I handle payment gateways, custom product pages, and advanced shipping integration.</p>
+                </div>
+
+                <div class="card fade-in-up" style="transition-delay:0.1s;">
+                    <div class="service-icon"><i class="fas fa-pager"></i></div>
+                    <h3 class="service-title">Landing Pages</h3>
+                    <p>Maximized conversion rates through clean, persuasive landing pages. Perfect for marketing campaigns, SaaS products, or event registrations.</p>
+                </div>
+
+                <div class="card fade-in-up" style="transition-delay:0.2s;">
+                    <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3 class="service-title">Scholarship / Ed Sites</h3>
+                    <p>Niche specialized sites for education, eLearning (LMS), and scholarship directories, ensuring structure, accessibility, and speed.</p>
+                </div>
+
+                <div class="card fade-in-up" style="grid-column: 1 / -1; max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem;">
+                    <div>
+                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem;">Need a custom WordPress solution?</h3>
+                        <p style="margin-bottom:0;">Plugins, API integrations, or speed optimization (90+ Google PageSpeed)? Let's chat about your unique requirements.</p>
+                    </div>
+                    <div>
+                        <a href="contact.html" class="btn btn-primary" style="white-space:nowrap;">Let's Talk <i class="fas fa-comments" style="margin-left:8px;"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <a href="index.html" class="logo footer-logo" style="display:inline-block;">Sabbir<span>.</span></a>
+                    <p style="margin-top: 1rem; max-width: 300px;">Professional WordPress & Elementor Developer. Building websites that drive results and look amazing.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Me</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Sabbir Biswas. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
