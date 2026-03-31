@@ -6,7 +6,7 @@ $forms_stmt = $pdo->query("SELECT COUNT(*) FROM form_submissions WHERE status = 
 $unread_forms = $forms_stmt->fetchColumn();
 
 // Fetch general settings
-$settings_stmt = $pdo->query("SELECT * FROM settings");
+$settings_stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
 $settings_all = $settings_stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 $admin_email = $settings_all['admin_email'] ?? 'Not set';
 
