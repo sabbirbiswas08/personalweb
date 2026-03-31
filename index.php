@@ -248,9 +248,10 @@
       <!-- Right: Image -->
       <div class="hero-img-wrap fade-up" style="transition-delay:.2s;">
         <div class="hero-img-ring"></div>
-        <img src="<?= get_raw_content($pdo,'home_hero_image','images/sabbir.png') ?>"
+        <img src="images/sabbir.png"
              alt="Sabbir Biswas — AI Web Developer"
-             class="hero-img">
+             class="hero-img"
+             onerror="this.src='images/sabbir biswas.png'">
 
         <div class="img-badge badge-ai">
           <i class="fas fa-robot" style="color:var(--primary-l)"></i>

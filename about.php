@@ -48,9 +48,12 @@
 <!-- ABOUT GRID -->
 <section class="section" style="padding-top:0;">
   <div class="container">
-    <div class="grid gap-12" style="grid-template-columns:1fr 1fr; align-items:start;">
+    <div class="grid gap-12" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); align-items:start;">
       <div class="fade-up">
-        <img src="<?= get_raw_content($pdo,'about_image','images/sabbir.png') ?>" alt="Sabbir Biswas" class="about-photo float">
+        <img src="images/sabbir.png"
+             alt="Sabbir Biswas"
+             class="about-photo float"
+             onerror="this.src='images/sabbir biswas.png'">
       </div>
       <div class="fade-up" style="transition-delay:.15s;">
         <div class="eyebrow">My Story</div>
@@ -71,7 +74,7 @@
 <!-- SKILLS -->
 <section class="section section-alt">
   <div class="container">
-    <div class="grid gap-8 md-col-1" style="grid-template-columns:1fr 1fr;">
+    <div class="grid gap-8" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
 
       <div class="fade-up">
         <div class="eyebrow"><i class="fas fa-code"></i> Technical Skills</div>

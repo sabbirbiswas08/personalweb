@@ -10,8 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     .page-hero { padding: calc(var(--nav-h) + 5rem) 0 4rem; }
-    .contact-grid { display:grid; grid-template-columns:1fr 1.6fr; gap:3rem; align-items:start; }
-    @media(max-width:900px) { .contact-grid { grid-template-columns:1fr; } }
+    .contact-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:3rem; align-items:start; }
 
     /* Info Panel */
     .info-panel {
