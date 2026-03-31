@@ -1,60 +1,77 @@
+/**
+ * main.js — Sabbir Biswas Portfolio
+ * Handles: mobile nav, navbar scroll effect, scroll animations
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile Navigation Toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    const icon = mobileMenuBtn?.querySelector('i');
 
-    if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            if (icon) {
-                if (navLinks.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            }
-        });
-    }
+  /* ── MOBILE NAV ─────────────────────────────────────────── */
+  const menuBtn  = document.getElementById('menuBtn');
+  const navLinks = document.querySelector('.nav-links');
+  const icon     = menuBtn?.querySelector('i');
 
-    // Sticky Navbar shadow on scroll
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = 'var(--shadow-md)';
-        } else {
-            navbar.style.boxShadow = 'none';
-        }
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      if (icon) {
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-xmark');
+      }
     });
 
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
+      });
+    });
+  }
+
+  /* ── NAVBAR SCROLL SHADOW ───────────────────────────────── */
+  const navbar = document.querySelector('.navbar');
+  if (navbar) {
+    const onScroll = () => {
+      navbar.style.background = window.scrollY > 30
+        ? 'rgba(13,14,26,0.95)'
+        : 'rgba(13,14,26,0.70)';
     };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+  /* ── SCROLL ANIMATIONS (.fade-up) ───────────────────────── */
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        obs.unobserve(entry.target); // fire once
+      }
+    });
+  }, { threshold: 0.12 });
 
-    const animatedElements = document.querySelectorAll('.fade-in-up');
-    animatedElements.forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
-    // Active Link Highlighting
-    const currentLocation = location.href;
-    const menuItem = document.querySelectorAll('a.nav-link');
-    const menuLength = menuItem.length;
-    for (let i = 0; i < menuLength; i++) {
-        if (menuItem[i].href === currentLocation) {
-            menuItem[i].classList.add("active");
-        }
+  /* ── SKILL BARS ─────────────────────────────────────────── */
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        skillObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.skill-fill').forEach(el => skillObs.observe(el));
+
+  /* ── AUTO ACTIVE NAV LINK ───────────────────────────────── */
+  const path = location.pathname.split('/').pop() || 'index.php';
+  document.querySelectorAll('a.nav-link').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href === path || (path === '' && href === 'index.php')) {
+      a.classList.add('active');
+    } else {
+      a.classList.remove('active');
     }
+  });
+
 });

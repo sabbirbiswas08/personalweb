@@ -1,105 +1,127 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
 
-// Handle Action
-if (isset($_GET['mark_read'])) {
-    $id = (int) $_GET['mark_read'];
-    $stmt = $pdo->prepare("UPDATE form_submissions SET status = 'read' WHERE id = ?");
-    $stmt->execute([$id]);
-    header("Location: submissions.php");
-    exit;
+// Handle actions
+$msg = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] === 'mark_read') {
+            $pdo->prepare("UPDATE form_submissions SET status='read' WHERE id=?")->execute([$_POST['id']]);
+            $msg = 'success:Marked as read.';
+        } elseif ($_POST['action'] === 'delete') {
+            $pdo->prepare("DELETE FROM form_submissions WHERE id=?")->execute([$_POST['id']]);
+            $msg = 'success:Message deleted.';
+        }
+    }
 }
 
-if (isset($_GET['delete'])) {
-    $id = (int) $_GET['delete'];
-    $stmt = $pdo->prepare("DELETE FROM form_submissions WHERE id = ?");
-    $stmt->execute([$id]);
-    header("Location: submissions.php");
-    exit;
-}
-
-// Fetch submissions
-$stmt = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at DESC");
-$submissions = $stmt->fetchAll();
+$submissions = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at DESC")->fetchAll();
+[$type, $text] = $msg ? explode(':', $msg, 2) : ['', ''];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Messages | CMS Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body { margin: 0; font-family: 'Inter', sans-serif; background: #f9fafb; display: flex; }
-        .sidebar { width: 250px; background: #1f2937; color: white; height: 100vh; position: fixed; }
-        .sidebar-header { padding: 1.5rem; font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid #374151; }
-        .nav-link { display: block; padding: 1rem 1.5rem; color: #d1d5db; text-decoration: none; }
-        .nav-link:hover, .nav-link.active { background: #374151; color: white; border-left: 4px solid #3b82f6; }
-        .content { margin-left: 250px; padding: 2rem; width: 100%; box-sizing: border-box;}
-        h1 { color: #111827; }
-        table { width: 100%; border-collapse: collapse; background: white; margin-top: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
-        th, td { text-align: left; padding: 1rem; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f3f4f6; color: #374151; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
-        tr:last-child td { border-bottom: none; }
-        .unread { font-weight: 600; background: #eff6ff; }
-        .badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 9999px; }
-        .badge-unread { background: #fee2e2; color: #991b1b; }
-        .badge-read { background: #d1fae5; color: #065f46; }
-        .btn { padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #2563eb; color: white; text-decoration: none; border-radius: 4px; border: none; cursor: pointer;}
-        .btn-danger { background: #dc2626; }
-    </style>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages — Portfolio CMS</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .msg-row td { vertical-align: top; }
+    .msg-body { color:#a0aec0; font-size:.88rem; line-height:1.6; max-width:340px; white-space:pre-wrap; word-break:break-word; }
+    .expand-btn { background:none; border:none; color:#818cf8; cursor:pointer; font-size:.82rem; margin-top:.25rem; padding:0; }
+  </style>
 </head>
 <body>
+<aside class="sidebar">
+  <div class="sidebar-logo"><i class="fas fa-cube"></i> Sabbir<span>.</span>CMS</div>
+  <div style="flex:1;">
+    <div class="sidebar-section">Main</div>
+    <a href="index.php"><i class="fas fa-gauge-high"></i> Dashboard</a>
+    <a href="submissions.php" class="active"><i class="fas fa-inbox"></i> Messages</a>
+    <div class="sidebar-section">Website</div>
+    <a href="content.php"><i class="fas fa-pen-to-square"></i> Edit Content</a>
+    <a href="settings.php"><i class="fas fa-sliders"></i> Settings</a>
+    <div class="sidebar-section">View</div>
+    <a href="../index.php" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> Live Site</a>
+  </div>
+  <div class="sidebar-bottom">
+    <a href="logout.php" class="logout-btn"><i class="fas fa-right-from-bracket"></i> Sign Out</a>
+  </div>
+</aside>
 
-    <div class="sidebar">
-        <div class="sidebar-header">Portfolio CMS</div>
-        <a href="index.php" class="nav-link">Dashboard</a>
-        <a href="submissions.php" class="nav-link active">Messages</a>
-        <a href="content.php" class="nav-link">Edit Content</a>
-        <a href="settings.php" class="nav-link">Settings</a>
-        <a href="logout.php" class="nav-link" style="margin-top: 2rem; background: #be123c;">Logout</a>
+<main class="main">
+  <div class="page-header">
+    <h1>Contact Messages</h1>
+    <p>All inquiries submitted through your website's contact form.</p>
+  </div>
+
+  <?php if ($text): ?>
+    <div class="<?= $type==='success' ? 'success-banner' : 'error-banner' ?>" style="margin-bottom:1.5rem;">
+      <i class="fas <?= $type==='success' ? 'fa-circle-check' : 'fa-circle-exclamation' ?>"></i> <?= htmlspecialchars($text) ?>
     </div>
+  <?php endif; ?>
 
-    <div class="content">
-        <h1>Contact Form Submissions</h1>
-        
-        <?php if(empty($submissions)): ?>
-            <p style="color: #6b7280; margin-top: 2rem;">No messages yet.</p>
-        <?php else: ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subject</th>
-                        <th>Message</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($submissions as $msg): ?>
-                        <tr class="<?= $msg['status'] === 'unread' ? 'unread' : '' ?>">
-                            <td><span class="badge <?= $msg['status'] === 'unread' ? 'badge-unread' : 'badge-read' ?>"><?= htmlspecialchars($msg['status']) ?></span></td>
-                            <td><?= htmlspecialchars($msg['first_name'] . ' ' . $msg['last_name']) ?></td>
-                            <td><a href="mailto:<?= htmlspecialchars($msg['email']) ?>"><?= htmlspecialchars($msg['email']) ?></a></td>
-                            <td><?= htmlspecialchars($msg['subject']) ?></td>
-                            <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                <?= nl2br(htmlspecialchars($msg['message'])) ?>
-                            </td>
-                            <td><?= date('M d, Y', strtotime($msg['created_at'])) ?></td>
-                            <td>
-                                <?php if($msg['status'] === 'unread'): ?>
-                                    <a href="?mark_read=<?= $msg['id'] ?>" class="btn">Mark Read</a>
-                                <?php endif; ?>
-                                <a href="?delete=<?= $msg['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this message?');">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
+  <div class="admin-card">
+    <?php if ($submissions): ?>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <?php foreach($submissions as $s): ?>
+          <tr class="msg-row">
+            <td><strong><?= htmlspecialchars($s['first_name'].' '.$s['last_name']) ?></strong></td>
+            <td><a href="mailto:<?= htmlspecialchars($s['email']) ?>" style="color:#818cf8;"><?= htmlspecialchars($s['email']) ?></a></td>
+            <td><?= htmlspecialchars($s['subject'] ?: '—') ?></td>
+            <td>
+              <div class="msg-body" id="msg-<?= $s['id'] ?>" style="max-height:60px; overflow:hidden;">
+                <?= nl2br(htmlspecialchars($s['message'])) ?>
+              </div>
+              <button class="expand-btn" onclick="toggleMsg(<?= $s['id'] ?>)">Show more</button>
+            </td>
+            <td style="font-size:.82rem; color:#7b82a8; white-space:nowrap;"><?= date('M j, Y<br>g:i A', strtotime($s['created_at'])) ?></td>
+            <td><?= $s['status']==='unread' ? '<span class="badge-unread">Unread</span>' : '<span class="badge-read">Read</span>' ?></td>
+            <td>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+                <?php if($s['status']==='unread'): ?>
+                <form method="POST">
+                  <input type="hidden" name="action" value="mark_read">
+                  <input type="hidden" name="id" value="<?= $s['id'] ?>">
+                  <button type="submit" class="btn-admin btn-teal" style="padding:.35rem .75rem;font-size:.78rem;"><i class="fas fa-check"></i> Read</button>
+                </form>
+                <?php endif; ?>
+                <form method="POST" onsubmit="return confirm('Delete this message permanently?')">
+                  <input type="hidden" name="action" value="delete">
+                  <input type="hidden" name="id" value="<?= $s['id'] ?>">
+                  <button type="submit" class="btn-admin btn-danger" style="padding:.35rem .75rem;font-size:.78rem;"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
+    <?php else: ?>
+      <div style="text-align:center; padding:4rem 0; color:#4d5475;">
+        <i class="fas fa-inbox" style="font-size:3rem; display:block; margin-bottom:1rem;"></i>
+        No messages yet.
+      </div>
+    <?php endif; ?>
+  </div>
+</main>
 
+<script>
+function toggleMsg(id) {
+  const el  = document.getElementById('msg-'+id);
+  const btn = el.nextElementSibling;
+  if (el.style.maxHeight === 'none') {
+    el.style.maxHeight = '60px'; btn.textContent = 'Show more';
+  } else {
+    el.style.maxHeight = 'none'; btn.textContent = 'Show less';
+  }
+}
+</script>
 </body>
 </html>

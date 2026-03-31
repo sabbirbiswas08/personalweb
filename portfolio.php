@@ -2,132 +2,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | <?= get_site_content($pdo, 'site_title') ?></title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .page-header { padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 2rem; text-align: center; }
-        .portfolio-filters { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
-        .filter-btn { background: var(--glass-bg); border: var(--glass-border); padding: 0.5rem 1.25rem; border-radius: var(--radius-full); color: var(--color-text-muted); font-weight: 500; cursor: pointer; transition: var(--transition); }
-        .filter-btn.active, .filter-btn:hover { background: rgba(6, 182, 212, 0.1); color: var(--color-primary); border-color: var(--color-primary); box-shadow: inset 0 0 10px rgba(6,182,212,0.2); }
-        .pulse-coming-soon {
-            animation: pulse-glow 2s infinite ease-in-out;
-            background: rgba(139, 92, 246, 0.05); border: 1px dashed rgba(139, 92, 246, 0.5);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-            min-height: 350px; border-radius: var(--radius-lg);
-        }
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 rgba(139, 92, 246, 0); }
-            50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
-            100% { box-shadow: 0 0 0 rgba(139, 92, 246, 0); }
-        }
-    </style>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio of Sabbir Biswas — AI-built websites, PHP/MySQL applications, and WordPress projects.">
+  <title>Work — <?= get_site_content($pdo,'site_title','Sabbir Biswas') ?></title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .page-hero { padding: calc(var(--nav-h) + 5rem) 0 4rem; }
+    .projects-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:1.75rem; }
+    @media(max-width:900px) { .projects-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:600px) { .projects-grid { grid-template-columns:1fr; } }
+    .coming-card {
+      border:1px dashed rgba(99,102,241,.3);
+      border-radius:var(--radius-lg);
+      padding:3rem 2rem;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+      background:rgba(99,102,241,.03);
+      animation: pulseCard 3s ease-in-out infinite;
+    }
+    @keyframes pulseCard {
+      0%,100% { border-color:rgba(99,102,241,.3); box-shadow:none; }
+      50% { border-color:rgba(99,102,241,.6); box-shadow:0 0 24px rgba(99,102,241,.12); }
+    }
+    .proj-result { margin-top:.75rem; font-size:.82rem; font-weight:600; color:var(--teal-l); display:flex; align-items:center; gap:.4rem; }
+  </style>
 </head>
 <body>
+<nav class="navbar">
+  <div class="container flex items-center justify-between">
+    <a href="index.php" class="logo">Sabbir<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="index.php"    class="nav-link">Home</a></li>
+      <li><a href="about.php"    class="nav-link">About</a></li>
+      <li><a href="services.php" class="nav-link">Services</a></li>
+      <li><a href="portfolio.php"class="nav-link active">Work</a></li>
+      <li><a href="contact.php"  class="nav-link">Contact</a></li>
+      <li><a href="contact.php"  class="btn btn-primary" style="padding:.6rem 1.4rem;">Hire Me &rarr;</a></li>
+    </ul>
+    <button class="mobile-menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
 
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.php" class="logo">Sabbir<span>.</span></a>
-            <ul class="nav-links">
-                <li><a href="index.php" class="nav-link">Home</a></li>
-                <li><a href="about.php" class="nav-link">About</a></li>
-                <li><a href="services.php" class="nav-link">Services</a></li>
-                <li><a href="portfolio.php" class="nav-link active">Portfolio</a></li>
-                <li><a href="contact.php" class="nav-link">Contact</a></li>
-                <li><a href="contact.php" class="btn btn-primary" style="padding: 0.5rem 1rem;">Hire Me</a></li>
-            </ul>
-            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+<section class="page-hero">
+  <div class="container text-center">
+    <div class="eyebrow fade-up"><i class="fas fa-layer-group"></i> My Work</div>
+    <h1 class="section-heading fade-up" style="font-size:clamp(2.2rem,4vw,3.2rem); margin:0 auto 1rem;">
+      Projects Built with <span class="grad-text">AI + Real Code</span>
+    </h1>
+    <p class="section-sub fade-up" style="margin:0 auto;">Every project here was designed with AI, built with PHP/MySQL or JavaScript, deployed live on a real server — no page builders, no shortcuts.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="proj-card fade-up">
+        <img src="images/ai_dashboard.png" alt="AI Analytics Dashboard" class="proj-img">
+        <div class="proj-body">
+          <div class="proj-tag">PHP + MySQL</div>
+          <h3>AI Analytics Dashboard</h3>
+          <p>A custom-built dark-mode admin panel with real-time data visualisation, secure login, and a MySQL backend. Built 100% with AI assistance + PHP.</p>
+          <div class="proj-result"><i class="fas fa-arrow-trend-up"></i> Deployed live on cPanel</div>
         </div>
-    </nav>
+      </div>
 
-    <header class="page-header container fade-in-up">
-        <div class="badge"><i class="fas fa-code"></i> My Case Studies</div>
-        <h1 class="section-title">Explore My <span>Latest AI Work</span></h1>
-        <p class="section-subtitle mx-auto" style="max-width: 600px; margin: 0 auto;">A collection of secure databases, modern UI applications, and fully functional custom deployments.</p>
-    </header>
-
-    <section class="section pt-0">
-        <div class="container">
-            
-            <div class="portfolio-filters fade-in-up">
-                <button class="filter-btn active">All Projects</button>
-                <button class="filter-btn">AI Dashboards</button>
-                <button class="filter-btn">Secure DB Systems</button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
-                <div class="portfolio-card fade-in-up">
-                    <div class="portfolio-img-wrap">
-                        <img src="images/ai_dashboard.png" alt="AI Dashboard UI" class="portfolio-img">
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-tag" style="background: rgba(6, 182, 212, 0.1); color: var(--color-primary); border-color: rgba(6, 182, 212, 0.3);">PHP & JS App</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem; color: #fff;">AI Data Analytics Dashboard</h3>
-                        <p class="text-sm">A highly functional, custom-built UI using modern Glassmorphism, driving real-time data flow perfectly into a secure MySQL environment.</p>
-                    </div>
-                </div>
-
-                <div class="portfolio-card fade-in-up" style="transition-delay: 0.1s;">
-                    <div class="portfolio-img-wrap">
-                        <img src="images/database_ui.png" alt="Database Interaction Panel" class="portfolio-img">
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-tag">Secure MySQL CMS</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem; color: #fff;">Scalable Backend Management</h3>
-                        <p class="text-sm">Zero WordPress involved. A highly engineered custom PHP backend allowing dynamic structural queries directly from the UI frontend layer.</p>
-                    </div>
-                </div>
-
-                <div class="portfolio-card fade-in-up" style="transition-delay: 0.2s;">
-                    <div class="portfolio-img-wrap">
-                        <img src="images/secure_login.png" alt="Secure Login Flow" class="portfolio-img">
-                    </div>
-                    <div class="portfolio-content">
-                        <span class="portfolio-tag" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Authentication Architecture</span>
-                        <h3 class="font-bold text-xl" style="margin-bottom:0.5rem; color: #fff;">Encrypted Portal Design</h3>
-                        <p class="text-sm">Server-side authenticated logic flow guarding the AI endpoints utilizing highly secure Session storage mechanisms mitigating typical XSS vectors.</p>
-                    </div>
-                </div>
-
-                <div class="pulse-coming-soon fade-in-up" style="transition-delay: 0.3s; padding: 2rem;">
-                    <i class="fas fa-layer-group" style="font-size: 3rem; color: rgba(139, 92, 246, 0.8); margin-bottom: 1rem; text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);"></i>
-                    <h3 class="font-bold text-xl" style="color: #fff;">More Coming Soon...</h3>
-                    <p class="text-sm" style="margin-top: 0.5rem;">I am constantly iterating and deploying new AI web applications. Stay tuned for further integrations.</p>
-                </div>
-
-            </div>
-
+      <!-- Project 2 -->
+      <div class="proj-card fade-up" style="transition-delay:.1s;">
+        <img src="images/database_ui.png" alt="Database Management UI" class="proj-img">
+        <div class="proj-body">
+          <div class="proj-tag">Supabase + JS</div>
+          <h3>Database Management Panel</h3>
+          <p>Interactive Supabase-backed admin panel with chart visualizations, filterable tables, and row-level security policies configured server-side.</p>
+          <div class="proj-result"><i class="fas fa-arrow-trend-up"></i> Zero SQL injection vectors</div>
         </div>
-    </section>
+      </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-top">
-                <div>
-                    <a href="index.php" class="logo footer-logo" style="display:inline-block;">Sabbir<span>.</span></a>
-                    <p style="margin-top: 1rem; max-width: 300px;">AI Web Developer specializing in custom database engineering and gorgeous glassmorphism UIs.</p>
-                </div>
-                <div>
-                    <h4 class="footer-title">Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="about.php">About Me</a></li>
-                        <li><a href="services.php">Services</a></li>
-                        <li><a href="portfolio.php">Portfolio</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; <span id="year"></span> Sabbir Biswas. All Rights Reserved.
-            </div>
+      <!-- Project 3 -->
+      <div class="proj-card fade-up" style="transition-delay:.2s;">
+        <img src="images/secure_login.png" alt="Secure Authentication Portal" class="proj-img">
+        <div class="proj-body">
+          <div class="proj-tag">PHP Authentication</div>
+          <h3>Encrypted Login Portal</h3>
+          <p>Full authentication system with bcrypt password hashing, secure session management, CSRF protection, and rate-limiting on the server side.</p>
+          <div class="proj-result"><i class="fas fa-shield-halved"></i> Production-grade security</div>
         </div>
-    </footer>
+      </div>
 
-    <script src="js/main.js"></script>
-    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+      <!-- This portfolio site itself -->
+      <div class="proj-card fade-up" style="transition-delay:.3s;">
+        <div style="height:240px; background:linear-gradient(135deg, rgba(99,102,241,.15), rgba(168,85,247,.15)); display:flex; align-items:center; justify-content:center;">
+          <i class="fas fa-globe" style="font-size:5rem; color:var(--primary-l); filter:drop-shadow(0 0 20px var(--primary));"></i>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tag" style="background:rgba(45,212,191,.1);color:var(--teal-l);border-color:rgba(45,212,191,.3);">This Website</div>
+          <h3>This Portfolio — Built with AI</h3>
+          <p>This exact website was architected, designed, and deployed using AI assistance. PHP backend, MySQL CMS, custom admin panel + GitHub → cPanel deployment.</p>
+          <div class="proj-result"><i class="fas fa-robot"></i> 100% AI-assisted, Real Code</div>
+        </div>
+      </div>
+
+      <!-- Coming soon x2 -->
+      <div class="coming-card fade-up" style="transition-delay:.4s;">
+        <i class="fas fa-code" style="font-size:2.5rem; color:rgba(99,102,241,.5); margin-bottom:1.25rem;"></i>
+        <h3 style="font-size:1.1rem; margin-bottom:.5rem; color:var(--text);">More Coming Soon</h3>
+        <p style="font-size:.88rem; color:var(--text-muted); margin:0;">New projects are constantly in the pipeline. Check back regularly.</p>
+      </div>
+
+      <div class="coming-card fade-up" style="transition-delay:.5s; background:rgba(168,85,247,.03); border-color:rgba(168,85,247,.3); animation-name:pulseCardPurp;">
+        <style>@keyframes pulseCardPurp {0%,100%{border-color:rgba(168,85,247,.3)}50%{border-color:rgba(168,85,247,.6);box-shadow:0 0 24px rgba(168,85,247,.1)}}</style>
+        <i class="fas fa-handshake" style="font-size:2.5rem; color:rgba(168,85,247,.6); margin-bottom:1.25rem;"></i>
+        <h3 style="font-size:1.1rem; margin-bottom:.75rem; color:var(--text);">Your Project Here?</h3>
+        <p style="font-size:.88rem; color:var(--text-muted); margin:0 0 1.25rem;">Let's build something together and add it to this list.</p>
+        <a href="contact.php" class="btn btn-primary" style="padding:.6rem 1.4rem; font-size:.88rem;"><i class="fas fa-paper-plane"></i> Get in Touch</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.php" class="logo">Sabbir<span>.</span></a>
+        <p>AI Web Developer building secure, database-driven sites with real PHP, MySQL, and deployed on live servers.</p>
+        <div class="social-row">
+          <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul>
+        <li><a href="about.php">About Me</a></li><li><a href="services.php">Services</a></li>
+        <li><a href="portfolio.php">Portfolio</a></li><li><a href="contact.php">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Services</h4><ul>
+        <li><a href="services.php">AI Website Building</a></li><li><a href="services.php">PHP &amp; MySQL Apps</a></li>
+        <li><a href="services.php">WordPress Dev</a></li><li><a href="services.php">cPanel Deployment</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">&copy; <span id="yr"></span> Sabbir Biswas. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  document.getElementById('menuBtn').addEventListener('click', () => document.querySelector('.nav-links').classList.toggle('open'));
+  const obs = new IntersectionObserver(e => e.forEach(x => x.isIntersecting && x.target.classList.add('in-view')), {threshold:.1});
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>

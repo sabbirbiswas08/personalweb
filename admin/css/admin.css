@@ -1,0 +1,167 @@
+/* ─── ADMIN PANEL SHARED STYLES ─────────────────────────── */
+/* Used across admin/index.php, submissions.php, content.php, settings.php, login.php */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap');
+
+/* RESET */
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0d0e1a;
+  color: #e2e5f0;
+  display: flex;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── SIDEBAR ────────────────────────────────────────────── */
+.sidebar {
+  width: 248px; min-height: 100vh;
+  background: #111327;
+  border-right: 1px solid rgba(255,255,255,.06);
+  position: fixed; top:0; left:0;
+  display: flex; flex-direction:column;
+  z-index: 100;
+}
+.sidebar-logo {
+  padding: 1.5rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: #f0f2ff;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center; gap: .5rem;
+}
+.sidebar-logo span { color: #818cf8; }
+
+.sidebar-section {
+  padding: .75rem 1rem .25rem;
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: #4d5475;
+}
+
+.sidebar a {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .75rem 1.25rem;
+  color: #8b9cba;
+  text-decoration: none;
+  font-size: .9rem; font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar a:hover, .sidebar a.active {
+  background: rgba(99,102,241,.1);
+  color: #c7d2fe;
+  border-left-color: #6366f1;
+}
+.sidebar a i { width: 18px; text-align:center; font-size: .9rem; }
+
+.sidebar-bottom { margin-top: auto; padding: 1rem; border-top: 1px solid rgba(255,255,255,.06); }
+.logout-btn {
+  display: flex; align-items:center; gap:.6rem;
+  width: 100%; padding: .7rem 1rem;
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.2);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: .88rem; font-weight: 600;
+  cursor:pointer; text-decoration:none;
+  transition: all .2s;
+}
+.logout-btn:hover { background: rgba(239,68,68,.18); border-color:rgba(239,68,68,.4); color:#fecaca; }
+
+/* ─── MAIN CONTENT ───────────────────────────────────────── */
+.main {
+  margin-left: 248px;
+  flex: 1;
+  padding: 2.5rem;
+  max-width: calc(100% - 248px);
+}
+
+.page-header { margin-bottom: 2rem; }
+.page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.7rem; font-weight:700; color:#f0f2ff; }
+.page-header p  { color: #7b82a8; margin-top:.25rem; font-size:.95rem; }
+
+/* ─── CARDS ─────────────────────────────────────────────── */
+.admin-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.4);
+}
+
+/* ─── STAT CARDS ─────────────────────────────────────────── */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1.25rem; margin-bottom:2rem; }
+.stat-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px; padding:1.5rem;
+  border-left: 3px solid #6366f1;
+  transition: transform .2s;
+}
+.stat-card:hover { transform: translateY(-4px); }
+.stat-card .sc-label { font-size: .78rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#7b82a8; margin-bottom:.5rem; }
+.stat-card .sc-value { font-family:'Plus Jakarta Sans',sans-serif; font-size:2rem; font-weight:700; color:#c7d2fe; }
+.stat-card .sc-sub   { font-size:.82rem; color:#7b82a8; margin-top:.25rem; }
+
+/* ─── TABLE ──────────────────────────────────────────────── */
+.table-wrap { overflow-x:auto; border-radius:12px; border:1px solid rgba(255,255,255,.07); }
+table { width:100%; border-collapse:collapse; font-size:.9rem; }
+thead { background: rgba(99,102,241,.1); }
+thead th { padding:.9rem 1.25rem; text-align:left; font-size:.78rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#a5b4fc; border-bottom:1px solid rgba(255,255,255,.07); white-space:nowrap; }
+tbody tr { border-bottom: 1px solid rgba(255,255,255,.05); transition:background .15s; }
+tbody tr:last-child { border-bottom:none; }
+tbody tr:hover { background: rgba(255,255,255,.025); }
+tbody td { padding:.9rem 1.25rem; color:#c9d0e8; vertical-align:middle; }
+tbody td strong { color:#e8ebf8; font-weight:600; }
+
+/* ─── BADGES ─────────────────────────────────────────────── */
+.badge-unread { display:inline-block; padding:.25rem .7rem; background:rgba(99,102,241,.15); color:#a5b4fc; border:1px solid rgba(99,102,241,.3); border-radius:999px; font-size:.75rem; font-weight:700; }
+.badge-read   { display:inline-block; padding:.25rem .7rem; background:rgba(255,255,255,.05); color:#7b82a8; border:1px solid rgba(255,255,255,.1); border-radius:999px; font-size:.75rem; font-weight:700; }
+.badge-new    { display:inline-block; padding:.25rem .7rem; background:rgba(45,212,191,.1); color:#5eead4; border:1px solid rgba(45,212,191,.3); border-radius:999px; font-size:.75rem; font-weight:700; }
+
+/* ─── BUTTONS ────────────────────────────────────────────── */
+.btn-admin {
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.55rem 1.15rem; border:none; border-radius:8px;
+  font-size:.85rem; font-weight:600; cursor:pointer; transition:all .2s;
+  text-decoration:none;
+}
+.btn-indigo { background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; box-shadow:0 0 20px rgba(99,102,241,.3); }
+.btn-indigo:hover { box-shadow:0 0 30px rgba(99,102,241,.5); transform:translateY(-2px); }
+.btn-danger { background:rgba(239,68,68,.1); color:#fca5a5; border:1px solid rgba(239,68,68,.3); }
+.btn-danger:hover { background:rgba(239,68,68,.25); color:#fecaca; }
+.btn-teal   { background:rgba(45,212,191,.1); color:#5eead4; border:1px solid rgba(45,212,191,.3); }
+.btn-teal:hover { background:rgba(45,212,191,.2); }
+
+/* ─── FORMS ──────────────────────────────────────────────── */
+label { display:block; font-size:.85rem; font-weight:500; color:#8b9cba; margin-bottom:.4rem; }
+input[type=text], input[type=email], input[type=password], textarea, select {
+  width:100%; padding:.75rem 1rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  font-family:inherit; font-size:.92rem; color:#e2e5f0;
+  transition: border-color .2s, box-shadow .2s;
+}
+input:focus, textarea:focus, select:focus {
+  outline:none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.2);
+  background: rgba(99,102,241,.05);
+}
+textarea { min-height:120px; resize:vertical; }
+select option { background:#13152a; color:#e2e5f0; }
+
+/* ─── ALERT BANNERS ──────────────────────────────────────── */
+.success-banner { background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); color:#6ee7b7; padding:.9rem 1.25rem; border-radius:10px; margin-bottom:1.5rem; font-weight:500; }
+.error-banner   { background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.3);   color:#fca5a5; padding:.9rem 1.25rem; border-radius:10px; margin-bottom:1.5rem; font-weight:500; }
+
+/* ─── SECTION TITLE ──────────────────────────────────────── */
+.section-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:1.1rem; font-weight:700; color:#c7d2fe; margin-bottom:1.25rem; padding-bottom:.75rem; border-bottom:1px solid rgba(255,255,255,.07); }
+
+/* ─── CONTENT EDITOR GRID ────────────────────────────────── */
+.content-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; }
+.content-item label { font-weight:600; color:#a5b4fc; }
+.content-item small { display:block; color:#7b82a8; font-size:.78rem; margin-top:.3rem; }
