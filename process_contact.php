@@ -31,11 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         "Subject: $subject\n\n" .
                         "Message:\n$message\n";
             
-            $headers = "From: noreply@" . $_SERVER['HTTP_HOST'] . "\r\n";
+            $headers = "From: Website Contact Form <noreply@" . $_SERVER['HTTP_HOST'] . ">\r\n";
             $headers .= "Reply-To: $email\r\n";
+            $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
-            // If running on local server, mail() might fail silently. It will work on cPanel.
-            @mail($adminEmail, $mailSubject, $mailBody, $headers);
+            // The -f flag sets the envelope-sender, critical for cPanel routing
+            @mail($adminEmail, $mailSubject, $mailBody, $headers, "-f noreply@" . $_SERVER['HTTP_HOST']);
 
             // Respond success to AJAX
             echo json_encode(["status" => "success", "message" => "Message sent successfully"]);

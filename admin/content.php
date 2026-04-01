@@ -2,52 +2,76 @@
 require_once __DIR__ . '/includes/auth.php';
 
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
-    foreach ($_POST['content'] as $key => $val) {
-        $check = $pdo->prepare("SELECT COUNT(*) FROM site_content WHERE section_key=?");
-        $check->execute([$key]);
-        if ($check->fetchColumn() > 0) {
-            $pdo->prepare("UPDATE site_content SET content_value=? WHERE section_key=?")->execute([trim($val), $key]);
-        } else {
-            $pdo->prepare("INSERT INTO site_content (section_key, content_value) VALUES (?,?)")->execute([$key, trim($val)]);
-        }
-    }
-    $msg = 'Content updated successfully.';
-}
+$error = '';
 
-$rows = $pdo->query("SELECT * FROM site_content ORDER BY section_key ASC")->fetchAll();
-
-// Group by page prefix
-$grouped = [];
-foreach ($rows as $r) {
-    $prefix = explode('_', $r['section_key'])[0];
-    $grouped[$prefix][] = $r;
-}
-$pageLabels = [
-    'home'    => ['icon'=>'fa-house',       'label'=>'Home Page'],
-    'about'   => ['icon'=>'fa-user',         'label'=>'About Page'],
-    'site'    => ['icon'=>'fa-globe',        'label'=>'Site Global'],
-    'admin'   => ['icon'=>'fa-at',           'label'=>'Admin / Email'],
+// Allowed image keys that can be edited
+$image_keys = [
+    'home_hero_image' => 'Homepage Hero Image',
+    'about_image'     => 'About Page Image'
 ];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['imageUpload'])) {
+    $key = $_POST['section_key'] ?? '';
+    
+    if (array_key_exists($key, $image_keys)) {
+        $file = $_FILES['imageUpload'];
+        
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            
+            if (in_array($ext, $allowed)) {
+                // Generate safe filename
+                $new_filename = $key . '_' . time() . '.' . $ext;
+                $upload_path = __DIR__ . '/../images/' . $new_filename;
+                $db_path = 'images/' . $new_filename;
+                
+                if (move_uploaded_file($file['tmp_name'], $upload_path)) {
+                    // Update database
+                    $check = $pdo->prepare("SELECT COUNT(*) FROM site_content WHERE section_key=?");
+                    $check->execute([$key]);
+                    if ($check->fetchColumn() > 0) {
+                        $pdo->prepare("UPDATE site_content SET content_value=? WHERE section_key=?")->execute([$db_path, $key]);
+                    } else {
+                        $pdo->prepare("INSERT INTO site_content (section_key, content_value) VALUES (?,?)")->execute([$key, $db_path]);
+                    }
+                    $msg = "Successfully updated " . $image_keys[$key];
+                } else {
+                    $error = "Failed to save the uploaded image.";
+                }
+            } else {
+                $error = "Invalid file type. Only JPG, PNG, GIF, and WEBP are allowed.";
+            }
+        } else {
+            $error = "Please select an image to upload.";
+        }
+    } else {
+        $error = "Invalid section selected.";
+    }
+}
+
+// Fetch current images
+$current_images = [];
+$stmt = $pdo->query("SELECT section_key, content_value FROM site_content WHERE section_key IN ('home_hero_image', 'about_image')");
+while ($row = $stmt->fetch()) {
+    $current_images[$row['section_key']] = $row['content_value'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Content — Portfolio CMS</title>
+  <title>Manage Images — Portfolio CMS</title>
   <link rel="stylesheet" href="css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    .tab-bar { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.75rem; }
-    .tab-btn { padding:.5rem 1.1rem; border:1px solid rgba(255,255,255,.1); border-radius:8px; background:rgba(255,255,255,.04); color:#8b9cba; font-size:.85rem; font-weight:600; cursor:pointer; transition:.2s; }
-    .tab-btn.active, .tab-btn:hover { background:rgba(99,102,241,.15); border-color:rgba(99,102,241,.4); color:#c7d2fe; }
-    .tab-panel { display:none; }
-    .tab-panel.active { display:block; }
-    .field-group { margin-bottom:1.5rem; }
-    .field-group label { font-size:.83rem; font-weight:700; color:#a5b4fc; display:block; margin-bottom:.3rem; }
-    .field-group small { color:#4d5475; font-size:.78rem; display:block; margin-bottom:.5rem; }
-    .field-group input, .field-group textarea { width:100%; }
-    .field-group textarea { min-height:90px; }
+    .image-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; display:flex; gap:2rem; align-items:center; }
+    @media(max-width:768px) { .image-card { flex-direction:column; align-items:flex-start; } }
+    .img-preview { width:200px; height:150px; object-fit:cover; border-radius:8px; border:2px solid rgba(255,255,255,.1); background:#000; }
+    .upload-form { flex:1; }
+    .upload-form h3 { color:#a5b4fc; margin-bottom:.5rem; font-size:1.1rem; }
+    .upload-form p { color:#7b82a8; font-size:.85rem; margin-bottom:1rem; }
+    .file-input { background:rgba(0,0,0,.2); padding:.5rem; border-radius:6px; border:1px solid rgba(255,255,255,.1); margin-bottom:1rem; width:100%; color:#c7d2fe; }
   </style>
 </head>
 <body>
@@ -58,7 +82,7 @@ $pageLabels = [
     <a href="index.php"><i class="fas fa-gauge-high"></i> Dashboard</a>
     <a href="submissions.php"><i class="fas fa-inbox"></i> Messages</a>
     <div class="sidebar-section">Website</div>
-    <a href="content.php" class="active"><i class="fas fa-pen-to-square"></i> Edit Content</a>
+    <a href="content.php" class="active"><i class="fas fa-image"></i> Manage Images</a>
     <a href="settings.php"><i class="fas fa-sliders"></i> Settings</a>
     <div class="sidebar-section">View</div>
     <a href="../index.php" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> Live Site</a>
@@ -70,8 +94,8 @@ $pageLabels = [
 
 <main class="main">
   <div class="page-header">
-    <h1>Edit Website Content</h1>
-    <p>Update text, headings, descriptions, and image paths for each page.</p>
+    <h1>Manage Website Images</h1>
+    <p>Upload and update the main images displayed on your site.</p>
   </div>
 
   <?php if ($msg): ?>
@@ -79,54 +103,34 @@ $pageLabels = [
       <i class="fas fa-circle-check"></i> <?= htmlspecialchars($msg) ?>
     </div>
   <?php endif; ?>
+  
+  <?php if ($error): ?>
+    <div style="background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.3); color:#fca5a5; padding:1rem; border-radius:8px; margin-bottom:1.5rem;">
+      <i class="fas fa-triangle-exclamation"></i> <?= htmlspecialchars($error) ?>
+    </div>
+  <?php endif; ?>
 
-  <form method="POST">
-    <!-- Tab Bar -->
-    <div class="tab-bar">
-      <?php $first = true; foreach ($grouped as $prefix => $fields): $info = $pageLabels[$prefix] ?? ['icon'=>'fa-file','label'=>ucfirst($prefix).' Page']; ?>
-        <button type="button" class="tab-btn <?= $first ? 'active' : '' ?>" onclick="switchTab('<?= $prefix ?>')">
-          <i class="fas <?= $info['icon'] ?>" style="margin-right:.4rem;"></i><?= $info['label'] ?>
+  <?php foreach ($image_keys as $db_key => $label): 
+      $current_src = $current_images[$db_key] ?? 'images/sabbir.png';
+  ?>
+  <div class="image-card">
+    <img src="../<?= htmlspecialchars($current_src) ?>" alt="Preview" class="img-preview" onerror="this.src='https://placehold.co/400x300/1e1e2f/4d5475?text=No+Image'">
+    
+    <div class="upload-form">
+      <h3><?= htmlspecialchars($label) ?></h3>
+      <p>Current file: <code><?= htmlspecialchars($current_src) ?></code></p>
+      
+      <form method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column; align-items:flex-start;">
+        <input type="hidden" name="section_key" value="<?= $db_key ?>">
+        <input type="file" name="imageUpload" class="file-input" accept="image/png, image/jpeg, image/gif, image/webp" required>
+        <button type="submit" class="btn-admin btn-indigo" style="padding:.5rem 1.5rem;">
+          <i class="fas fa-upload"></i> Upload & Replace
         </button>
-      <?php $first = false; endforeach; ?>
+      </form>
     </div>
+  </div>
+  <?php endforeach; ?>
 
-    <!-- Tab Panels -->
-    <?php $first = true; foreach ($grouped as $prefix => $fields): ?>
-      <div class="tab-panel admin-card <?= $first ? 'active' : '' ?>" id="tab-<?= $prefix ?>">
-        <div class="section-title"><?= ($pageLabels[$prefix] ?? ['label'=>ucfirst($prefix)])['label'] ?> Fields</div>
-        <div class="content-grid">
-          <?php foreach ($fields as $f):
-            $isLong = strlen($f['content_value'] ?? '') > 80 || str_contains($f['section_key'], 'desc'); ?>
-            <div class="field-group">
-              <label><?= htmlspecialchars(ucwords(str_replace(['_','-'],' ', $f['section_key']))) ?></label>
-              <small>Key: <code style="color:#6366f1;"><?= htmlspecialchars($f['section_key']) ?></code></small>
-              <?php if ($isLong): ?>
-                <textarea name="content[<?= htmlspecialchars($f['section_key']) ?>]"><?= htmlspecialchars($f['content_value'] ?? '') ?></textarea>
-              <?php else: ?>
-                <input type="text" name="content[<?= htmlspecialchars($f['section_key']) ?>]" value="<?= htmlspecialchars($f['content_value'] ?? '') ?>">
-              <?php endif; ?>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    <?php $first = false; endforeach; ?>
-
-    <div style="margin-top:1.5rem; padding:1rem 0;">
-      <button type="submit" class="btn-admin btn-indigo" style="padding:.75rem 2rem; font-size:.95rem;">
-        <i class="fas fa-floppy-disk"></i> Save All Changes
-      </button>
-      <span style="margin-left:1rem; font-size:.85rem; color:#4d5475;">Changes go live on the site immediately.</span>
-    </div>
-  </form>
 </main>
-
-<script>
-function switchTab(prefix) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+prefix).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
-</script>
 </body>
 </html>
