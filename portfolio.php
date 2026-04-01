@@ -60,7 +60,7 @@
 
       <!-- Project 1 -->
       <div class="proj-card fade-up">
-        <img src="images/ai_dashboard.png" alt="AI Analytics Dashboard" class="proj-img">
+        <img src="<?= get_raw_content($pdo, 'portfolio_img_1', 'images/ai_dashboard.png') ?>" alt="AI Analytics Dashboard" class="proj-img" onerror="this.src='images/ai_dashboard.png'">
         <div class="proj-body">
           <div class="proj-tag">PHP + MySQL</div>
           <h3>AI Analytics Dashboard</h3>
@@ -71,7 +71,7 @@
 
       <!-- Project 2 -->
       <div class="proj-card fade-up" style="transition-delay:.1s;">
-        <img src="images/database_ui.png" alt="Database Management UI" class="proj-img">
+        <img src="<?= get_raw_content($pdo, 'portfolio_img_2', 'images/database_ui.png') ?>" alt="Database Management UI" class="proj-img" onerror="this.src='images/database_ui.png'">
         <div class="proj-body">
           <div class="proj-tag">Supabase + JS</div>
           <h3>Database Management Panel</h3>
@@ -82,7 +82,7 @@
 
       <!-- Project 3 -->
       <div class="proj-card fade-up" style="transition-delay:.2s;">
-        <img src="images/secure_login.png" alt="Secure Authentication Portal" class="proj-img">
+        <img src="<?= get_raw_content($pdo, 'portfolio_img_3', 'images/secure_login.png') ?>" alt="Secure Authentication Portal" class="proj-img" onerror="this.src='images/secure_login.png'">
         <div class="proj-body">
           <div class="proj-tag">PHP Authentication</div>
           <h3>Encrypted Login Portal</h3>

@@ -7,7 +7,10 @@ $error = '';
 // Allowed image keys that can be edited
 $image_keys = [
     'home_hero_image' => 'Homepage Hero Image',
-    'about_image'     => 'About Page Image'
+    'about_image'     => 'About Page Image',
+    'portfolio_img_1' => 'Portfolio Image 1 (AI Dashboard)',
+    'portfolio_img_2' => 'Portfolio Image 2 (Database UI)',
+    'portfolio_img_3' => 'Portfolio Image 3 (Secure Login)'
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['imageUpload'])) {
@@ -52,7 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['imageUpload'])) {
 
 // Fetch current images
 $current_images = [];
-$stmt = $pdo->query("SELECT section_key, content_value FROM site_content WHERE section_key IN ('home_hero_image', 'about_image')");
+$keys_list = "'" . implode("','", array_keys($image_keys)) . "'";
+$stmt = $pdo->query("SELECT section_key, content_value FROM site_content WHERE section_key IN ($keys_list)");
 while ($row = $stmt->fetch()) {
     $current_images[$row['section_key']] = $row['content_value'];
 }
