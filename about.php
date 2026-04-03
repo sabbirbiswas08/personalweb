@@ -28,7 +28,7 @@
       <li><a href="about.php"    class="nav-link active">About</a></li>
       <li><a href="services.php" class="nav-link">Services</a></li>
       <li><a href="portfolio.php"class="nav-link">Work</a></li>
-      <li><a href="contact.php"  class="nav-link">Contact</a></li>
+
       <li><a href="contact.php"  class="btn btn-primary" style="padding:.6rem 1.4rem;">Hire Me &rarr;</a></li>
     </ul>
     <button class="mobile-menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
