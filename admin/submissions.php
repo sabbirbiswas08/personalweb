@@ -28,7 +28,8 @@ $submissions = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at D
   <style>
     .msg-row td { vertical-align: top; }
     .msg-body { color:#a0aec0; font-size:.88rem; line-height:1.6; max-width:340px; white-space:pre-wrap; word-break:break-word; }
-    .expand-btn { background:none; border:none; color:#818cf8; cursor:pointer; font-size:.82rem; margin-top:.25rem; padding:0; }
+    .expand-btn { background:rgba(99,102,241,.1); border:1px solid rgba(99,102,241,.2); border-radius:12px; color:#c7d2fe; cursor:pointer; font-size:.78rem; font-weight:600; padding:.2rem .6rem; margin-top:.5rem; transition:.2s; }
+    .expand-btn:hover { background:rgba(99,102,241,.2); border-color:rgba(99,102,241,.4); }
   </style>
 </head>
 <body>
@@ -83,7 +84,7 @@ $submissions = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at D
             <td style="font-size:.82rem; color:#7b82a8; white-space:nowrap;"><?= date('M j, Y<br>g:i A', strtotime($s['created_at'])) ?></td>
             <td><?= $s['status']==='unread' ? '<span class="badge-unread">Unread</span>' : '<span class="badge-read">Read</span>' ?></td>
             <td>
-              <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+              <div style="display:flex; gap:.5rem; flex-wrap:nowrap; align-items:center;">
                 <?php if($s['status']==='unread'): ?>
                 <form method="POST">
                   <input type="hidden" name="action" value="mark_read">

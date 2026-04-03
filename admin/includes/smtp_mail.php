@@ -61,7 +61,7 @@ function smtp_mail($to, $subject, $message, $headers_arr = []) {
     $headers .= "From: Website Contact Form <$from>\r\n";
     $headers .= "Subject: $subject\r\n";
     $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     $headers .= "Content-Transfer-Encoding: 8bit\r\n";
     $headers .= "Date: " . date("r") . "\r\n";
     

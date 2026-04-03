@@ -27,11 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $adminEmail = $stmt->fetchColumn() ?: 'hello@sabbirbiswas.com';
 
             $mailSubject = "New Website Inquiry from $firstName $lastName";
-            $mailBody = "Website Inquiry:\n\n" .
-                        "From: $firstName $lastName\n" .
-                        "Email Address: $email\n" .
-                        "Message Header: $subject\n\n" .
-                        "Full Message Content:\n$message\n";
+            $mailBody = "
+            <html>
+            <body style='font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; color: #333;'>
+                <div style='max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                    <h2 style='color: #6366f1; border-bottom: 2px solid #eef2ff; padding-bottom: 10px;'>New Website Inquiry</h2>
+                    <p><strong>From:</strong> $firstName $lastName</p>
+                    <p><strong>Email Address:</strong> <a href='mailto:$email'>$email</a></p>
+                    <p><strong>Subject:</strong> $subject</p>
+                    <div style='background: #f8fafc; padding: 15px; border-left: 4px solid #6366f1; margin-top: 20px;'>
+                        <p style='margin: 0; white-space: pre-wrap;'>$message</p>
+                    </div>
+                    <p style='font-size: 12px; color: #888; margin-top: 30px;'>Sent automatically from your portfolio website.</p>
+                </div>
+            </body>
+            </html>
+            ";
             
             // Send using the SMTP function I just built
             $sent = smtp_mail($adminEmail, $mailSubject, $mailBody, ["Reply-To: $email"]);
