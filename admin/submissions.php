@@ -27,7 +27,7 @@ $submissions = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at D
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     .msg-row td { vertical-align: top; }
-    .msg-body { color:#a0aec0; font-size:.88rem; line-height:1.6; max-width:340px; white-space:pre-wrap; word-break:break-word; }
+    .msg-body { color:#a0aec0; font-size:.88rem; line-height:1.6; white-space:pre-wrap; word-break:break-word; min-width:250px; }
     .expand-btn { background:rgba(99,102,241,.1); border:1px solid rgba(99,102,241,.2); border-radius:12px; color:#c7d2fe; cursor:pointer; font-size:.78rem; font-weight:600; padding:.2rem .6rem; margin-top:.5rem; transition:.2s; }
     .expand-btn:hover { background:rgba(99,102,241,.2); border-color:rgba(99,102,241,.4); }
   </style>
@@ -80,7 +80,8 @@ $submissions = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at D
                 <?= nl2br(htmlspecialchars($s['message'])) ?>
               </div>
             </td>
-            <td style="font-size:.82rem; color:#7b82a8; white-space:nowrap;"><?= date('M j, Y<br>g:i A', strtotime($s['created_at'])) ?></td>
+            <?php $ts = strtotime($s['created_at']); ?>
+            <td style="font-size:.82rem; color:#7b82a8; white-space:nowrap;"><?= date('M j, Y', $ts) ?><br><?= date('g:i A', $ts) ?></td>
             <td><?= $s['status']==='unread' ? '<span class="badge-unread">Unread</span>' : '<span class="badge-read">Read</span>' ?></td>
             <td>
               <div style="display:flex; gap:.5rem; flex-wrap:nowrap; align-items:center;">

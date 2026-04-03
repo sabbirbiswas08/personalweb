@@ -28,17 +28,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $mailSubject = "New Website Inquiry from $firstName $lastName";
             $mailBody = "
+            <!DOCTYPE html>
             <html>
-            <body style='font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; color: #333;'>
-                <div style='max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
-                    <h2 style='color: #6366f1; border-bottom: 2px solid #eef2ff; padding-bottom: 10px;'>New Website Inquiry</h2>
-                    <p><strong>From:</strong> $firstName $lastName</p>
-                    <p><strong>Email Address:</strong> <a href='mailto:$email'>$email</a></p>
-                    <p><strong>Subject:</strong> $subject</p>
-                    <div style='background: #f8fafc; padding: 15px; border-left: 4px solid #6366f1; margin-top: 20px;'>
-                        <p style='margin: 0; white-space: pre-wrap;'>$message</p>
+            <head>
+                <meta charset='UTF-8'>
+                <title>Website Inquiry</title>
+            </head>
+            <body style='font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 40px 20px; color: #1e293b; line-height: 1.5;'>
+                <!-- Preheader -->
+                <div style='display: none; max-height: 0px; overflow: hidden;'>
+                    New message from $firstName $lastName regarding $subject.
+                </div>
+                
+                <div style='max-width: 580px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);'>
+                    <div style='margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9;'>
+                        <h2 style='margin: 0; font-size: 20px; font-weight: 700; color: #6366f1; letter-spacing: -0.01em;'>New Website Inquiry</h2>
+                        <span style='font-size: 13px; color: #94a3b8;'>Received on " . date('F j, Y \a\t g:i A') . "</span>
                     </div>
-                    <p style='font-size: 12px; color: #888; margin-top: 30px;'>Sent automatically from your portfolio website.</p>
+
+                    <div style='margin-bottom: 24px;'>
+                        <label style='display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 6px; letter-spacing: 0.05em;'>From</label>
+                        <div style='font-size: 15px; color: #0f172a;'>$firstName $lastName</div>
+                    </div>
+
+                    <div style='margin-bottom: 24px;'>
+                        <label style='display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 6px; letter-spacing: 0.05em;'>Email Address</label>
+                        <div style='font-size: 15px;'><a href='mailto:$email' style='color: #6366f1; text-decoration: none;'>$email</a></div>
+                    </div>
+                    
+                    <div style='margin-bottom: 30px;'>
+                        <label style='display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 6px; letter-spacing: 0.05em;'>Message</label>
+                        <div style='background: #f8fafc; padding: 20px; border-radius: 12px; font-size: 15px; color: #334155; border: 1px solid #f1f5f9; white-space: pre-wrap;'>$message</div>
+                    </div>
+
+                    <div style='padding-top: 30px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #94a3b8; text-align: center;'>
+                        This is an automated notification from your portfolio CMS.<br>
+                        Powered by AI &bull; Sabbir Biswas CMS
+                    </div>
                 </div>
             </body>
             </html>
