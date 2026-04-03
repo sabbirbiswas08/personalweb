@@ -19,27 +19,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare("INSERT INTO form_submissions (first_name, last_name, email, subject, message) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$firstName, $lastName, $email, $subject, $message]);
 
-            // 2. Send Email
+            // 2. Send via SMTP
+            require_once __DIR__ . '/admin/includes/smtp_mail.php';
+            
             // Get Admin Email from settings
             $stmt = $pdo->query("SELECT setting_value FROM settings WHERE setting_key = 'admin_email'");
             $adminEmail = $stmt->fetchColumn() ?: 'hello@sabbirbiswas.com';
 
-            $mailSubject = "New Website Inquiry: " . $subject;
-            $mailBody = "You have received a new message from your website.\n\n" .
-                        "Name: $firstName $lastName\n" .
-                        "Email: $email\n" .
-                        "Subject: $subject\n\n" .
-                        "Message:\n$message\n";
+            $mailSubject = "New Website Inquiry from $firstName $lastName";
+            $mailBody = "Website Inquiry:\n\n" .
+                        "From: $firstName $lastName\n" .
+                        "Email Address: $email\n" .
+                        "Message Header: $subject\n\n" .
+                        "Full Message Content:\n$message\n";
             
-            $headers = "From: Website Contact Form <noreply@" . $_SERVER['HTTP_HOST'] . ">\r\n";
-            $headers .= "Reply-To: $email\r\n";
-            $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+            // Send using the SMTP function I just built
+            $sent = smtp_mail($adminEmail, $mailSubject, $mailBody, ["Reply-To: $email"]);
 
-            // The -f flag sets the envelope-sender, critical for cPanel routing
-            @mail($adminEmail, $mailSubject, $mailBody, $headers, "-f noreply@" . $_SERVER['HTTP_HOST']);
+            if (!$sent) {
+                // Fallback to basic mail if SMTP fails
+                @mail($adminEmail, $mailSubject, $mailBody, "From: " . SMTP_FROM . "\r\nReply-To: $email");
+            }
 
             // Respond success to AJAX
-            echo json_encode(["status" => "success", "message" => "Message sent successfully"]);
+            echo json_encode(["status" => "success", "message" => "Message sent! We'll be in touch soon."]);
 
         } catch (PDOException $e) {
             http_response_code(500);

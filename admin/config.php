@@ -18,6 +18,12 @@ session_set_cookie_params([
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
+// SMTP Configuration
+define('SMTP_HOST', 'temp.sabbirbiswas.com');
+define('SMTP_PORT', 465); // SSL
+define('SMTP_USER', 'contact@temp.sabbirbiswas.com');
+define('SMTP_PASS', 'nl+w-SW6jXKy'); // REAL PASSWORD UPDATED
+define('SMTP_FROM', 'contact@temp.sabbirbiswas.com');
 
 session_start();
 ?>
