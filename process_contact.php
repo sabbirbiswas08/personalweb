@@ -49,7 +49,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (!$sent) {
                 // Fallback to basic mail if SMTP fails
-                @mail($adminEmail, $mailSubject, $mailBody, "From: " . SMTP_FROM . "\r\nReply-To: $email");
+                $fallbackHeaders = "From: Website Contact Form <" . SMTP_FROM . ">\r\n";
+                $fallbackHeaders .= "Reply-To: $email\r\n";
+                $fallbackHeaders .= "MIME-Version: 1.0\r\n";
+                $fallbackHeaders .= "Content-Type: text/html; charset=UTF-8\r\n";
+                @mail($adminEmail, $mailSubject, $mailBody, $fallbackHeaders, "-f " . SMTP_FROM);
             }
 
             // Respond success to AJAX

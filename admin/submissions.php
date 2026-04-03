@@ -76,10 +76,9 @@ $submissions = $pdo->query("SELECT * FROM form_submissions ORDER BY created_at D
             <td><a href="mailto:<?= htmlspecialchars($s['email']) ?>" style="color:#818cf8;"><?= htmlspecialchars($s['email']) ?></a></td>
             <td><?= htmlspecialchars($s['subject'] ?: '—') ?></td>
             <td>
-              <div class="msg-body" id="msg-<?= $s['id'] ?>" style="max-height:60px; overflow:hidden;">
+              <div class="msg-body" id="msg-<?= $s['id'] ?>">
                 <?= nl2br(htmlspecialchars($s['message'])) ?>
               </div>
-              <button class="expand-btn" onclick="toggleMsg(<?= $s['id'] ?>)">Show more</button>
             </td>
             <td style="font-size:.82rem; color:#7b82a8; white-space:nowrap;"><?= date('M j, Y<br>g:i A', strtotime($s['created_at'])) ?></td>
             <td><?= $s['status']==='unread' ? '<span class="badge-unread">Unread</span>' : '<span class="badge-read">Read</span>' ?></td>
