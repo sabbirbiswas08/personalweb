@@ -64,6 +64,8 @@ function smtp_mail($to, $subject, $message, $headers_arr = []) {
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     $headers .= "Content-Transfer-Encoding: 8bit\r\n";
     $headers .= "Date: " . date("r") . "\r\n";
+    $headers .= "Message-ID: <" . md5(uniqid(time())) . "@" . $_SERVER['HTTP_HOST'] . ">\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
     
     // Add custom headers if any
     foreach($headers_arr as $h) {
